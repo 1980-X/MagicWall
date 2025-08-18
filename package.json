@@ -1,0 +1,35 @@
+{
+  "name": "magicwall",
+  "version": "1.0.0",
+  "description": "A large interactive display wall application",
+  "main": "src/main.js",
+  "scripts": {
+    "dev": "electron . --debug",
+    "build": "electron-builder",
+    "start": "electron .",
+    "product": "electron . --product"
+  },
+  "keywords": [
+    "interactive",
+    "display",
+    "wall",
+    "electron",
+    "windows"
+  ],
+  "author": "[Your Name]",
+  "license": "ISC",
+  "build": {
+    "appId": "com.magicwall.app",
+    "productName": "MagicWall",
+    "target": "nsis",
+    "win": {
+      "icon": "src/assets/icon.ico"
+    }
+  },
+  "dependencies": {
+    "electron": "^25.3.1"
+  },
+  "devDependencies": {
+    "electron-builder": "^24.6.3"
+  }
+}

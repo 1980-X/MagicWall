@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:">    
+    <title>MagicWall</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div id="app-container">
+        <!-- 模式切换控件 -->
+        <div id="mode-controls">
+            <button id="debug-mode-btn" class="mode-btn active">调试模式</button>
+            <button id="product-mode-btn" class="mode-btn">产品模式</button>
+        </div>
+
+        <!-- 页面容器 -->
+        <div id="pages-container">
+            <!-- 页面 1 -->
+            <div class="page active" data-page="1">
+                <h1>页面 1</h1>
+                <div class="hotspot" data-target="2"></div>
+                <div class="animation-container"></div>
+            </div>
+
+            <!-- 页面 2 -->
+            <div class="page" data-page="2">
+                <h1>页面 2</h1>
+                <div class="hotspot" data-target="1"></div>
+                <div class="animation-container"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 检测是否在Electron环境中 -->
+    <script>
+        // 检测是否在Electron环境中
+        if (window && window.process && window.process.type) {
+            // 在Electron环境中，加载预加载脚本
+            document.write('<script src="preload.js"><\/script>');
+        }
+    </script>
+
+    <script type="module" src="js/mode.js"></script>
+    <script type="module" src="js/animation.js"></script>
+    <script type="module" src="js/app.js"></script>
+</body>
+</html>
