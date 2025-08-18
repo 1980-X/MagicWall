@@ -1,0 +1,39 @@
+{
+  "name": "magicwall",
+  "version": "1.0.0",
+  "description": "独立的Windows桌面原生应用程序，设计用于13.57米×1.8米的物理展示屏幕",
+  "main": "src/main.js",
+  "scripts": {
+    "start": "electron .",
+    "dev": "DEBUG_MODE=true electron .",
+    "product": "DEBUG_MODE=false electron .",
+    "build": "electron-builder"
+  },
+  "build": {
+    "appId": "com.magicwall.app",
+    "productName": "MagicWall",
+    "win": {
+      "target": "nsis",
+      "icon": "build/icon.ico"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowElevation": true,
+      "allowToChangeInstallationDirectory": true,
+      "installerIcon": "build/icon.ico",
+      "uninstallerIcon": "build/icon.ico",
+      "installerHeaderIcon": "build/icon.ico",
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "MagicWall"
+    }
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "electron": "^28.0.0"
+  },
+  "devDependencies": {
+    "electron-builder": "^24.9.1"
+  }
+}
