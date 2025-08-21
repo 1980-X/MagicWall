@@ -100,6 +100,16 @@ body {
     z-index: 1;
 }
 
+#toc-dynamic-00 {
+    position: absolute;
+    top: 25%; /* 原10%向下移动15% */
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 10%; /* 原50%缩小80% */
+    height: auto;
+    z-index: 3;
+}
+
 #toc-element-00 {
     position: absolute;
     top: 0;
