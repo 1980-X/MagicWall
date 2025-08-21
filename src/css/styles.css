@@ -84,14 +84,30 @@ body {
     left: 0;
     width: 100%;
     padding: 20px;
+    height: 100%;
     display: flex;
+    align-items: center;
     justify-content: center;
 }
 
-#toc-element-00 {
-    max-width: 85%;
+#toc-frame-00 {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    max-width: 71.0125%; /* 原74.75%再缩小5% */
     height: auto;
-    display: block;
+    z-index: 1;
+}
+
+#toc-element-00 {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    max-width: 44.625%; /* 原63.75%再缩小30% */
+    height: auto;
+    z-index: 2;
 }
 
 /* 确保所有元素都使用相对单位 */
