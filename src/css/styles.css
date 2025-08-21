@@ -1,0 +1,100 @@
+/* 全局样式重置 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #3D2314; /* 深咖啡色背景 */
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    width: 100vw;
+}
+
+/* 主容器 - 使用Flexbox进行水平布局 */
+#main-container {
+    display: flex;
+    height: 100vh;
+    width: 100vw;
+    position: relative;
+}
+
+/* 通用区域样式 */
+.section {
+    height: 100%;
+    border: 2px solid rgba(255, 255, 255, 0.1); /* 半透明边框，便于区分区域 */
+    background-color: rgba(61, 35, 20, 0.8); /* 稍浅的深咖啡色，与背景形成微妙对比 */
+    position: relative;
+}
+
+/* 区域宽度比例设置 */
+#section-1 {
+    width: 11.6%; /* 卷首语区 */
+}
+
+#section-2 {
+    width: 22.1%; /* 第二区域 */
+}
+
+#section-3 {
+    width: 22.1%; /* 第三区域 */
+}
+
+#section-4 {
+    width: 22.1%; /* 第四区域 */
+}
+
+#section-5 {
+    width: 22.1%; /* 第五区域 */
+}
+
+/* 确保在不同模式下的响应式行为 */
+@media (max-width: 1920px) {
+    /* 在较小屏幕上保持相同的比例关系 */
+    #section-1 {
+        width: 11.6%;
+    }
+    
+    #section-2,
+    #section-3,
+    #section-4,
+    #section-5 {
+        width: 22.1%;
+    }
+}
+
+/* 调试辅助样式 - 仅在开发环境显示 */
+.dev-info {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 12px;
+    font-family: Arial, sans-serif;
+    z-index: 1000;
+}
+
+/* 卷首语区域图片样式 */
+.toc-element {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+#toc-element-00 {
+    max-width: 85%;
+    height: auto;
+    display: block;
+}
+
+/* 确保所有元素都使用相对单位 */
+:root {
+    --screen-ratio: 5.028; /* 9.05 / 1.80 的比例 */
+}
