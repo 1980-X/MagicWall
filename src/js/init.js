@@ -27,6 +27,20 @@
     // 设置按钮3为默认选中状态（安全生产委员会模式）
     setDefaultButtonWithRetry('button-03');
     
+    // 初始化动画
+    if (window.initAnimations) {
+        console.log('初始化动画系统');
+        window.initAnimations();
+    } else {
+        console.warn('initAnimations函数未找到，将在延迟后重试');
+        setTimeout(function() {
+            if (window.initAnimations) {
+                console.log('延迟初始化动画系统');
+                window.initAnimations();
+            }
+        }, 500);
+    }
+    
     // 监听模式改变事件
     document.addEventListener('modeChange', function(event) {
         const buttonId = event.detail.buttonId;
