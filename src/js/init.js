@@ -47,7 +47,7 @@
                     modeDescription.textContent = '2022年经自治区党委、自治区人民政府同意，将广西壮族自治区人民政府突发事件应急管理委员会更名为广西壮族自治区应急管理委员会，纳入自治区党委议事协调机构管理。';
                     break;
                 case 'button-02':
-                    modeTitle.textContent = '防汛抗旱指挥部';
+                    modeTitle.textContent = '自治区防汛抗旱指挥部';
                     modeDescription.textContent = '自治区人民政府设立自治区防汛抗旱指挥部，负责领导、组织全区的防汛抗旱工作。自治区防汛抗旱指挥部办公室设在自治区应急管理厅，承担自治区防汛抗旱指挥部日常工作。';
                     break;
                 case 'button-03':
@@ -55,16 +55,16 @@
                     modeDescription.textContent = '广西壮族自治区安全生产委员会是自治区人民政府议事协调机构，必须坚持以习近平新时代中国特色社会主义思想为指导，树牢"四个意识"，坚定"四个自信"，坚决做到"两个维护"，认真贯彻落实习近平总书记关于安全生产的重要论述和指示批示精神，认真贯彻落实党中央、国务院和自治区党委、自治区人民政府安全生产方面的方针政策和重大决策部署。';
                     break;
                 case 'button-04':
-                    modeTitle.textContent = '模式四';
-                    modeDescription.textContent = '这里是模式四的简介内容。';
+                    modeTitle.textContent = '森林防灭火指挥部';
+                    modeDescription.textContent = '广西壮族自治区森林防灭火指挥部是自治区人民政府议事协调机构，代表自治区人民政府行使森林防灭火工作指挥决策权力。坚持以习近平新时代中国特色社会主义思想为指导，树牢"四个意识"，坚定"四个自信"，做到"两个维护"，严格贯彻落实党中央、国务院、国家森防指和自治区党委、政府关于森林草原防灭火工作的方政政策和决策部署。';
                     break;
                 case 'button-05':
-                    modeTitle.textContent = '模式五';
-                    modeDescription.textContent = '这里是模式五的简介内容。';
+                    modeTitle.textContent = '防灾减灾救灾委员会';
+                    modeDescription.textContent = '为全面贯彻习近平总书记关于防灾减灾救灾的重要论述，2024年12月经自治区党委、自治区人民政府同意，整合设立广西壮族自治区防灾减灾救灾委员会，主要职责是负责统筹指导、协调和监督全区防灾减灾救灾工作。';
                     break;
                 case 'button-06':
-                    modeTitle.textContent = '模式六';
-                    modeDescription.textContent = '这里是模式六的简介内容。';
+                    modeTitle.textContent = '抗震救灾指挥部';
+                    modeDescription.textContent = '自治区人民政府设立自治区抗震救灾指挥部，负责贯彻落实党中央、国务院、国务院抗震救灾指挥部和自治区党委、自治区人民政府关于防震减灾和抗震救灾的方针政策和重大决策部署。自治区抗震救灾指挥部办公室设在自治区应急管理厅，承担自治区抗震救灾指挥部日常工作。';
                     break;
                 default:
                     console.log('未知的按钮ID:', buttonId);

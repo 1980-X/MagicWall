@@ -152,7 +152,7 @@ body {
 
 .mode-title {
     color: #ffffff;
-    font-size: 0.75vw; /* 原1.5vw缩小50% */
+    font-size: 0.6vw; /* 原0.75vw缩小20% */
     font-weight: bold;
     margin: 0 0 10px 0;
     /* 取消阴影效果 */
