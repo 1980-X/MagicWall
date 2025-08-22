@@ -139,6 +139,38 @@ body {
     z-index: 4;
 }
 
+/* 安全生产委员会模式内容样式 */
+.mode-content {
+    position: absolute;
+    top: 25%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%;
+    text-align: center;
+    z-index: 5;
+}
+
+.mode-title {
+    color: #ffffff;
+    font-size: 0.75vw; /* 原1.5vw缩小50% */
+    font-weight: bold;
+    margin: 0 0 10px 0;
+    /* 取消阴影效果 */
+}
+
+.mode-description {
+    color: #ffffff;
+    font-size: 0.24vw; /* 原0.8vw缩小70% */
+    line-height: 1.4;
+    margin: 0;
+    /* 取消阴影效果 */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 5;
+    -webkit-box-orient: vertical;
+}
+
 .button-container {
     position: absolute;
     top: 65%; /* 原50%向下移动15% */
