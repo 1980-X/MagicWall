@@ -130,6 +130,23 @@ body {
     z-index: 4;
 }
 
+.button-container {
+    position: absolute;
+    top: 65%; /* 原50%向下移动15% */
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 60%;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15% 10%;
+    z-index: 5;
+}
+
+.button-container img {
+    max-width: 100%;
+    height: auto;
+}
+
 /* 确保所有元素都使用相对单位 */
 :root {
     --screen-ratio: 5.028; /* 9.05 / 1.80 的比例 */
