@@ -6,12 +6,20 @@
 }
 
 body {
-    background-color: #3D2314; /* 深咖啡色背景 */
+    background-color: #E0E0E0; /* 浅灰色背景 - 更好地衬托出背景图片 */
+    background-image: url('../assets/images/OverallBackground/Backgroundelements01.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
     overflow: hidden;
     margin: 0;
     padding: 0;
     height: 100vh;
     width: 100vw;
+    position: relative;
+    /* 增强背景图片的可见性 */
+    filter: brightness(1.3) contrast(1.2) saturate(1.1);
 }
 
 /* 主容器 - 使用Flexbox进行水平布局 */
@@ -20,13 +28,14 @@ body {
     height: 100vh;
     width: 100vw;
     position: relative;
+    z-index: 1; /* 确保主容器在背景图片之上，但内容区域保持半透明 */
 }
 
 /* 通用区域样式 */
 .section {
     height: 100%;
     border: 2px solid rgba(255, 255, 255, 0.1); /* 半透明边框，便于区分区域 */
-    background-color: rgba(61, 35, 20, 0.8); /* 稍浅的深咖啡色，与背景形成微妙对比 */
+    background-color: rgba(61, 35, 20, 0.4); /* 降低背景透明度，使背景图片更明显 */
     position: relative;
 }
 
@@ -145,6 +154,89 @@ body {
 .button-container img {
     max-width: 100%;
     height: auto;
+}
+
+/* 第二区域图片样式 */
+#zone01-frame-01 {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 80.5%; /* 原115%等比例缩小30% */
+    height: auto;
+    z-index: 1;
+}
+
+#zone01-title-01 {
+    position: absolute;
+    top: 3%; /* 原5%再向上移动2% */
+    left: 50%;
+    transform: translateX(-50%);
+    max-width: 45.5%; /* 原70%等比例缩小35% */
+    height: auto;
+    z-index: 2;
+}
+
+#zone02-frame-02 {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 80.5%; /* 原115%等比例缩小30%，与内容区一的线框图保持一致 */
+    height: auto;
+    z-index: 1;
+}
+
+#zone02-title-02 {
+    position: absolute;
+    top: 3%; /* 原5%再向上移动2%，与内容区一的标题图保持一致 */
+    left: 50%;
+    transform: translateX(-50%);
+    max-width: 45.5%; /* 原70%等比例缩小35%，与内容区一的标题图保持一致 */
+    height: auto;
+    z-index: 2;
+}
+
+/* 第三内容区图片样式 */
+#zone03-frame-01 {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 80.5%; /* 原115%等比例缩小30%，与其他内容区的线框图保持一致 */
+    height: auto;
+    z-index: 1;
+}
+
+#zone03-title-03 {
+    position: absolute;
+    top: 3%; /* 原5%再向上移动2%，与其他内容区的标题图保持一致 */
+    left: 50%;
+    transform: translateX(-50%);
+    max-width: 45.5%; /* 原70%等比例缩小35%，与其他内容区的标题图保持一致 */
+    height: auto;
+    z-index: 2;
+}
+
+/* 第四内容区图片样式 */
+#zone04-frame-01 {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 80.5%; /* 原115%等比例缩小30%，与其他内容区的线框图保持一致 */
+    height: auto;
+    z-index: 1;
+}
+
+#zone04-title-04 {
+    position: absolute;
+    top: 3%; /* 原5%再向上移动2%，与其他内容区的标题图保持一致 */
+    left: 50%;
+    transform: translateX(-50%);
+    max-width: 45.5%; /* 原70%等比例缩小35%，与其他内容区的标题图保持一致 */
+    height: auto;
+    z-index: 2;
 }
 
 /* 确保所有元素都使用相对单位 */

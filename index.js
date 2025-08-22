@@ -35,6 +35,7 @@ function createWindow() {
         height: windowSize.height,
         frame: false,  // 移除标题栏
         title: 'MagicWall',
+        resizable: false,  // 禁止调整窗口尺寸
         webPreferences: {
             nodeIntegration: true,
             contextIsolation: false,
@@ -42,10 +43,10 @@ function createWindow() {
         }
     });
     
-    // 根据环境变量和模式决定是否打开开发者工具
-    if (currentMode === 'debug' && modeConfig.shouldOpenDevTools()) {
-        mainWindow.webContents.openDevTools();
-    }
+    // 确保不显示控制台
+    // 移除了根据环境变量和模式决定是否打开开发者工具的逻辑
+    // 始终不打开开发者工具
+
 
     // 加载应用的 index.html
     mainWindow.loadFile(path.join(__dirname, 'src/index.html'));
