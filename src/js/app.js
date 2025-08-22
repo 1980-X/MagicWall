@@ -1,4 +1,3 @@
-const { app, BrowserWindow, dialog, screen } = require('electron');
 // 导入Electron模块
 const { app, BrowserWindow, dialog, screen } = require('electron');
 const path = require('path');

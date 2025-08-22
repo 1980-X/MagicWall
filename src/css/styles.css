@@ -145,7 +145,7 @@ body {
     top: 25%;
     left: 50%;
     transform: translateX(-50%);
-    width: 80%;
+    width: 54.4%; /* 原68%再缩小20% */
     text-align: center;
     z-index: 5;
 }
@@ -160,15 +160,16 @@ body {
 
 .mode-description {
     color: #ffffff;
-    font-size: 0.24vw; /* 原0.8vw缩小70% */
-    line-height: 1.4;
+    font-size: 0.264vw; /* 原0.24vw放大10% - 使用vw相对单位确保不同屏幕尺寸一致性 */
+    line-height: 1.8em; /* 使用em单位确保行距始终与字体大小成比例，在不同缩放级别下保持一致视觉效果 */
     margin: 0;
     /* 取消阴影效果 */
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-line-clamp: 5;
-    -webkit-box-orient: vertical;
+    /* 移除文本截断限制，确保所有文字都能完整显示 */
+    text-align: justify; /* 两端对齐，优化排版 */
+    text-indent: 2em; /* 首行空两行 */
+    word-wrap: break-word; /* 避免在单词中间断行 */
+    hyphens: auto; /* 自动连字符处理 */
+    width: 100%; /* 确保文本框宽度足够，避免不必要的断句 */
 }
 
 .button-container {
