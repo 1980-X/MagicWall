@@ -102,7 +102,7 @@ body {
 
 #toc-dynamic-00 {
     position: absolute;
-    top: 25%; /* 原10%向下移动15% */
+    top: 20%; /* 原25%向上移动15% */
     left: 50%;
     transform: translate(-50%, -50%);
     max-width: 10%; /* 原50%缩小80% */
@@ -118,6 +118,16 @@ body {
     max-width: 44.625%; /* 原63.75%再缩小30% */
     height: auto;
     z-index: 2;
+}
+
+#toc-element-01 {
+    position: absolute;
+    top: 80%; /* 原50%向下移动30% */
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 13.3875%; /* 原44.625%缩小70% */
+    height: auto;
+    z-index: 4;
 }
 
 /* 确保所有元素都使用相对单位 */
