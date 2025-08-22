@@ -47,8 +47,8 @@
                     modeDescription.textContent = '2022年经自治区党委、自治区人民政府同意，将广西壮族自治区人民政府突发事件应急管理委员会更名为广西壮族自治区应急管理委员会，纳入自治区党委议事协调机构管理。';
                     break;
                 case 'button-02':
-                    modeTitle.textContent = '模式二';
-                    modeDescription.textContent = '这里是模式二的简介内容。';
+                    modeTitle.textContent = '防汛抗旱指挥部';
+                    modeDescription.textContent = '自治区人民政府设立自治区防汛抗旱指挥部，负责领导、组织全区的防汛抗旱工作。自治区防汛抗旱指挥部办公室设在自治区应急管理厅，承担自治区防汛抗旱指挥部日常工作。';
                     break;
                 case 'button-03':
                     modeTitle.textContent = '安全生产委员会';
