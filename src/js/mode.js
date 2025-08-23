@@ -66,11 +66,12 @@ module.exports.detectModeAutomatically = function(screen) {
     }
 };
 
-// 判断是否应打开开发者工具
-module.exports.shouldOpenDevTools = function() {
-    // 可以通过环境变量控制
-    return process.env.OPEN_DEV_TOOLS !== 'false';
-};
+  // 判断是否应打开开发者工具
+  module.exports.shouldOpenDevTools = function() {
+      // 可以通过环境变量控制
+      // 默认为false，避免自动打开开发者工具
+      return process.env.OPEN_DEV_TOOLS === 'true';
+  };
 
 // 计算调试模式下的窗口尺寸
 module.exports.calculateDebugWindowSize = function() {
