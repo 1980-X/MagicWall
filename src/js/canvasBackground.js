@@ -60,12 +60,10 @@ class CanvasBackground {
         // 创建图片对象
         const img02 = new Image();
         const img03 = new Image();
-        const img01 = new Image(); // 新添加的动画元素
         
         // 设置图片源
         img02.src = './assets/images/OverallBackground/Backgroundelements02.png';
         img03.src = './assets/images/OverallBackground/Backgroundelements03.png';
-        img01.src = './assets/images/OverallBackground/BackgroundDynamics (Elements)/Dynamic-(element)01.gif';
         
         // 存储图片信息 - 缩放比例设置为22.5%以满足用户需求（在25%的基础上再缩小10%）
         this.backgroundImages = [
@@ -92,19 +90,6 @@ class CanvasBackground {
                 speed: 0.0009 + Math.random() * 0.0018, // 移动速度降低10%
                 direction: 1, // 固定从左到右移动
                 width: 0 // 将在图片加载后设置实际宽度
-            },
-            // 新添加的动画元素 - 位于主窗口左下角，底部贴主窗口底部
-            {
-                image: img01,
-                scale: 0.05625, // 等比例缩小75%，保留25%的大小（0.225 × 0.25）
-                x: 0.0094325, // 初始X位置 - 从0.013475基础上再次向左移动30%（0.013475 × 0.7）
-                y: 1, // 始终贴着底部
-                anchorX: 0, // 左对齐
-                anchorY: 1, // 下对齐
-                // 动画相关属性
-                speed: 0, // 静止不动
-                direction: 0, // 没有方向
-                width: 0 // 将在图片加载后设置实际宽度
             }
         ];
         
@@ -118,6 +103,83 @@ class CanvasBackground {
                 console.error('加载背景图片失败:', e);
             };
         });
+        
+        // 单独处理GIF动画 - 使用img标签而非Canvas绘制以支持动画播放
+        this.setupGifAnimation();
+    }
+    
+    // 设置GIF动画元素
+    setupGifAnimation() {
+        // 创建img元素用于显示GIF动画
+        this.gifElement = document.createElement('img');
+        this.gifElement.src = './assets/images/OverallBackground/BackgroundDynamics (Elements)/Dynamic-(element)01.gif';
+        this.gifElement.style.position = 'absolute';
+        this.gifElement.style.zIndex = '1'; // 确保在Canvas之上
+        this.gifElement.style.pointerEvents = 'none'; // 不干扰鼠标事件
+        
+        // 设置GIF动画的初始位置和大小参数
+        this.gifParams = {
+            scale: 0.05625, // 等比例缩小75%，保留25%的大小（0.225 × 0.25）
+            x: 0.0094325, // 初始X位置 - 从0.013475基础上再次向左移动30%（0.013475 × 0.7）
+            y: 1, // 始终贴着底部
+            anchorX: 0, // 左对齐
+            anchorY: 1 // 下对齐
+        };
+        
+        // 添加到动态背景容器
+        const dynamicContainer = document.getElementById('dynamic-background-container');
+        if (dynamicContainer) {
+            dynamicContainer.appendChild(this.gifElement);
+            console.log('GIF动画元素已成功添加到动态背景容器');
+        } else {
+            // 如果没有找到动态背景容器，回退到主背景容器
+            const backgroundContainer = document.querySelector('.background-container');
+            if (backgroundContainer) {
+                backgroundContainer.appendChild(this.gifElement);
+                console.log('GIF动画元素已成功添加到主背景容器');
+            } else {
+                console.error('未找到背景容器，GIF动画元素无法添加到页面');
+            }
+        }
+        
+        // 监听GIF加载完成事件
+        this.gifElement.onload = () => {
+            console.log('GIF动画已加载完成，开始播放');
+            // 初始调整GIF位置和大小
+            this.updateGifPosition();
+        };
+        
+        this.gifElement.onerror = (e) => {
+            console.error('加载GIF动画失败:', e);
+        };
+    }
+    
+    // 更新GIF动画的位置和大小
+    updateGifPosition() {
+        if (!this.gifElement || !this.gifParams) return;
+        
+        const container = document.querySelector('.background-container');
+        let containerWidth, containerHeight;
+        
+        if (container) {
+            const rect = container.getBoundingClientRect();
+            containerWidth = rect.width;
+            containerHeight = rect.height;
+        } else {
+            // 如果没有找到容器，使用窗口尺寸
+            containerWidth = window.innerWidth;
+            containerHeight = window.innerHeight;
+        }
+        
+        // 计算GIF的缩放尺寸
+        const scaledWidth = this.gifElement.naturalWidth * this.gifParams.scale;
+        const scaledHeight = this.gifElement.naturalHeight * this.gifParams.scale;
+        
+        // 设置GIF的CSS样式
+        this.gifElement.style.width = scaledWidth + 'px';
+        this.gifElement.style.height = scaledHeight + 'px';
+        this.gifElement.style.left = (containerWidth * this.gifParams.x - scaledWidth * this.gifParams.anchorX) + 'px';
+        this.gifElement.style.bottom = (containerHeight * (1 - this.gifParams.y) - scaledHeight * (1 - this.gifParams.anchorY)) + 'px';
     }
 
     // 调整Canvas大小以匹配窗口
@@ -143,6 +205,9 @@ class CanvasBackground {
         
         // 调整大小后重新渲染
         this.render();
+        
+        // 调整GIF动画元素的位置和大小
+        this.updateGifPosition();
     }
 
     // 渲染背景元素
