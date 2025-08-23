@@ -310,92 +310,7 @@ class CanvasBackground {
             gifInfo.isResetting = false;
             console.error(`执行GIF ${gifInfo.id} 重置操作时出错:`, err);
         }
-    };
-
-    
-    // 重试加载GIF动画
-    retryLoadingGif(gifInfo) {
-        if (!gifInfo || !gifInfo.element || gifInfo.isLoading || gifInfo.operationInProgress) {
-            console.log(`GIF ${gifInfo?.id || 'unknown'} 重试被跳过，当前状态不允许重试`);
-            return;
-        }
-        
-        try {
-            console.log(`准备尝试重新加载GIF动画 ${gifInfo.id} (尝试 ${gifInfo.loadAttempts}/${gifInfo.maxLoadAttempts})...`);
-            gifInfo.isLoading = true;
-            gifInfo.operationInProgress = true;
-            gifInfo.loadAttempts++;
-            
-            // 创建新的Image对象用于预加载
-            const tempImg = new Image();
-            
-            // 添加缓存清理参数
-            const cacheBuster = '?t=' + Date.now();
-            
-            // 设置onload事件处理器
-            tempImg.onload = () => {
-                try {
-                    gifInfo.isLoading = false;
-                    gifInfo.operationInProgress = false;
-                    gifInfo.lastLoadTimestamp = Date.now();
-                    
-                    // 将预加载的资源应用到实际元素
-                    gifInfo.element.src = gifInfo.originalPath + cacheBuster;
-                    console.log(`GIF动画 ${gifInfo.id} 重新加载成功`);
-                    
-                    // 确保位置正确
-                    setTimeout(() => {
-                        this.updateGifPosition(gifInfo);
-                    }, 100);
-                } catch (err) {
-                    gifInfo.isLoading = false;
-                    gifInfo.operationInProgress = false;
-                    console.error(`应用重新加载的GIF动画 ${gifInfo.id} 时出错:`, err);
-                }
-            };
-            
-            // 设置onerror事件处理器
-            tempImg.onerror = (e) => {
-                gifInfo.isLoading = false;
-                gifInfo.operationInProgress = false;
-                console.error(`重新加载GIF动画 ${gifInfo.id} 失败:`, e);
-                
-                // 如果还未达到最大重试次数，继续尝试
-                if (gifInfo.loadAttempts < gifInfo.maxLoadAttempts) {
-                    console.log(`将在2秒后再次尝试加载GIF动画 ${gifInfo.id}...`);
-                    setTimeout(() => {
-                        this.retryLoadingGif(gifInfo);
-                    }, 2000);
-                } else {
-                    console.error(`GIF动画 ${gifInfo.id} 已达到最大重试次数(${gifInfo.maxLoadAttempts})，加载失败`);
-                    
-                    // 10秒后尝试完全重新初始化
-                    setTimeout(() => {
-                        if (!gifInfo.isLoading && !gifInfo.operationInProgress) {
-                            this.reinitializeGifAnimation(gifInfo);
-                        }
-                    }, 10000);
-                }
-            };
-            
-            // 设置tempImg的src以开始预加载
-            tempImg.src = gifInfo.originalPath + cacheBuster;
-            
-            // 设置超时，以防预加载过程卡住
-            setTimeout(() => {
-                if (gifInfo.isLoading) {
-                    console.log(`GIF ${gifInfo.id} 重试加载操作超时，将恢复状态`);
-                    gifInfo.isLoading = false;
-                    gifInfo.operationInProgress = false;
-                }
-            }, 5000); // 5秒超时
-        } catch (err) {
-            gifInfo.isLoading = false;
-            gifInfo.operationInProgress = false;
-            console.error(`重试加载GIF动画 ${gifInfo.id} 时出错:`, err);
-        }
-    };
-
+    }
     
     // 绑定GIF元素的事件处理器
     bindGifEvents(gifInfo) {
@@ -727,58 +642,27 @@ class CanvasBackground {
         
         renderLoop();
     }
-}
-
-// 将功能暴露到全局作用域
-window.CanvasBackground = CanvasBackground;
-
-// 初始化Canvas背景
-function initCanvasBackground() {
-    // 创建单例实例
-    const canvasBackground = new CanvasBackground();
-    window.canvasBackground = canvasBackground;
-
-    try {
-        canvasBackground.init();
-    } catch (error) {
-        console.error('初始化Canvas背景时出错:', error);
+    
+    // 将功能暴露到全局作用域
+    static exposeToGlobal() {
+        window.CanvasBackground = CanvasBackground;
     }
-}
 
-// 在DOM加载完成后初始化Canvas背景
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initCanvasBackground);
-} else {
-    initCanvasBackground();
-}
-        
-        // 添加延迟以确保状态完全设置
-        setTimeout(() => {
-            // 确保这是最新的加载尝试
-            if (currentId === gifInfo.currentLoadAttemptId) {
-                gifInfo.element.src = gifInfo.originalPath;
-                console.log(`GIF动画 ${gifInfo.id} 开始加载，ID:`, currentId);
-            }
-        }, 50);
-        
-        // 检查是否已经加载完成（可能是缓存命中）
-        if (gifInfo.element.complete) {
-            // 如果已经加载完成，手动触发onload回调
-            setTimeout(() => {
-                if (gifInfo.element && gifInfo.element.complete && gifInfo.isLoading) {
-                    gifInfo.isLoading = false;
-                    gifInfo.operationInProgress = false;
-                    gifInfo.loadAttempts = 0;
-                    gifInfo.lastLoadTimestamp = Date.now();
-                    console.log(`GIF动画 ${gifInfo.id} 已从缓存加载完成`);
-                    this.updateGifPosition(gifInfo);
-                }
-            }, 100);
+    // 初始化Canvas背景
+    static initCanvasBackground() {
+        // 创建单例实例
+        const canvasBackground = new CanvasBackground();
+        window.canvasBackground = canvasBackground;
+
+        try {
+            canvasBackground.init();
+        } catch (error) {
+            console.error('初始化Canvas背景时出错:', error);
         }
-    };
+    }
 
-
-        // 检查是否正在操作中，或在短时间内已经加载过
+    // 重置GIF动画
+    resetGifAnimation(gifInfo) {
         if (!gifInfo || 
             !gifInfo.element || 
             gifInfo.isLoading || 
@@ -868,8 +752,8 @@ if (document.readyState === 'loading') {
             console.error(`执行GIF ${gifInfo.id} 重置操作时出错:`, err);
         }
     }
-    
-    // 重试加载GIF动画
+
+    // 重试加载极GIF动画
     retryLoadingGif(gifInfo) {
         if (!gifInfo || !gifInfo.element || gifInfo.isLoading || gifInfo.operationInProgress) {
             console.log(`GIF ${gifInfo?.id || 'unknown'} 重试被跳过，当前状态不允许重试`);
@@ -1045,8 +929,7 @@ if (document.readyState === 'loading') {
                 }, 10000); // 增加等待时间到10秒
             }
         };
-    };
-
+    }
     
     // 完全重新初始化单个GIF动画
     reinitializeGifAnimation(gifInfo) {
@@ -1128,7 +1011,7 @@ if (document.readyState === 'loading') {
         } catch (err) {
             console.error(`完全重新初始化GIF动画 ${gifInfo.id} 时出错:`, err);
         }
-    };
+    }
 
     
     // 清理单个GIF元素的资源
