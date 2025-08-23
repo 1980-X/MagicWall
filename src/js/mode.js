@@ -1,13 +1,16 @@
 // 模式配置参数
 module.exports.CONFIG = {
-    // 产品模式下的屏幕尺寸 (开发环境下使用较小尺寸)
-    SCREEN_WIDTH: 1920,     // 开发环境下使用1920px
-    SCREEN_HEIGHT: 382,     // 根据比例计算: 1920 / 5.028 ≈ 382
+    // 物理屏幕尺寸 (9.05米 x 1.80米)
+    PHYSICAL_SCREEN_WIDTH: 9050,  // 物理屏幕宽度，单位：像素
+    PHYSICAL_SCREEN_HEIGHT: 1800, // 物理屏幕高度，单位：像素
     SCREEN_RATIO: 5.028,    // 9.05米 / 1.80米 的比例
     
-    // 调试模式下的窗口尺寸
-    DEBUG_WINDOW_HEIGHT: 600,
-    DEBUG_WINDOW_WIDTH: 3017,  // 根据屏幕比例自动计算，600 * 5.028 ≈ 3017
+    // 开发环境下使用的产品模式尺寸
+    DEV_PRODUCTION_WIDTH: 1920,   // 开发环境下使用的宽度
+    DEV_PRODUCTION_HEIGHT: 382,   // 开发环境下使用的高度
+    
+    // 调试模式下的基准高度
+    DEBUG_BASE_HEIGHT: 600,
     
     // 默认模式设置
     DEFAULT_MODE: 'production',    // 'debug' 或 'production'
@@ -74,21 +77,46 @@ module.exports.detectModeAutomatically = function(screen) {
   };
 
 // 计算调试模式下的窗口尺寸
-module.exports.calculateDebugWindowSize = function() {
-    const { SCREEN_RATIO, DEBUG_WINDOW_HEIGHT } = module.exports.CONFIG;
+// 根据开发者屏幕宽度计算高度，保持比例一致
+module.exports.calculateDebugWindowSize = function(screen) {
+    const { SCREEN_RATIO, DEBUG_BASE_HEIGHT } = module.exports.CONFIG;
+    
+    // 获取屏幕尺寸
+    const screenSize = module.exports.detectScreenSize(screen);
+    
+    // 以基准高度为基础计算理想宽度
+    const idealWidth = Math.floor(DEBUG_BASE_HEIGHT * SCREEN_RATIO);
+    
+    // 如果理想宽度超过屏幕宽度，则以屏幕宽度为准计算高度
+    if (idealWidth > screenSize.width) {
+        return {
+            width: screenSize.width,
+            height: module.exports.calculateHeightByWidth(screenSize.width)
+        };
+    }
+    
     return {
-        width: Math.floor(DEBUG_WINDOW_HEIGHT * SCREEN_RATIO),
-        height: DEBUG_WINDOW_HEIGHT
+        width: idealWidth,
+        height: DEBUG_BASE_HEIGHT
     };
 };
 
 // 计算产品模式下的窗口尺寸
 module.exports.calculateProductionWindowSize = function() {
-    const { SCREEN_WIDTH, SCREEN_HEIGHT } = module.exports.CONFIG;
-    return {
-        width: SCREEN_WIDTH,
-        height: SCREEN_HEIGHT
-    };
+    const { PHYSICAL_SCREEN_WIDTH, PHYSICAL_SCREEN_HEIGHT, DEV_PRODUCTION_WIDTH, DEV_PRODUCTION_HEIGHT, IS_DEV_ENV } = module.exports.CONFIG;
+    
+    // 在生产环境下使用物理屏幕尺寸，开发环境下使用较小尺寸
+    if (IS_DEV_ENV) {
+        return {
+            width: DEV_PRODUCTION_WIDTH,
+            height: DEV_PRODUCTION_HEIGHT
+        };
+    } else {
+        return {
+            width: PHYSICAL_SCREEN_WIDTH,
+            height: PHYSICAL_SCREEN_HEIGHT
+        };
+    }
 };
 
 // 根据当前屏幕尺寸调整窗口大小
@@ -99,7 +127,7 @@ module.exports.adjustWindowSizeForScreen = function(window, mode) {
     
     if (mode === 'debug') {
         // 调试模式下，如果计算出的窗口尺寸超过屏幕，按比例缩小
-        const debugSize = module.exports.calculateDebugWindowSize();
+        const debugSize = module.exports.calculateDebugWindowSize(screen);
         
         let scaleFactor = 1;
         if (debugSize.width > width || debugSize.height > height) {

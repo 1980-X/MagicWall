@@ -79,7 +79,7 @@ function createMainWindow() {
         // 监听来自渲染进程的切换模式请求
         ipcMain.on('switch-to-debug-mode', (event) => {
             console.log('收到切换到调试模式的请求');
-            const debugSize = mode.calculateDebugWindowSize();
+            const debugSize = mode.calculateDebugWindowSize(screen);
             mainWindow.setSize(debugSize.width, debugSize.height);
             currentMode = 'debug';
             mainWindow.webContents.send('mode-changed', currentMode);
