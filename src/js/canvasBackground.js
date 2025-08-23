@@ -310,7 +310,8 @@ class CanvasBackground {
             gifInfo.isResetting = false;
             console.error(`执行GIF ${gifInfo.id} 重置操作时出错:`, err);
         }
-    }
+    };
+
     
     // 重试加载GIF动画
     retryLoadingGif(gifInfo) {
@@ -393,7 +394,8 @@ class CanvasBackground {
             gifInfo.operationInProgress = false;
             console.error(`重试加载GIF动画 ${gifInfo.id} 时出错:`, err);
         }
-    }
+    };
+
     
     // 绑定GIF元素的事件处理器
     bindGifEvents(gifInfo) {
@@ -551,7 +553,8 @@ class CanvasBackground {
         
         // 清空数组
         this.gifElements = [];
-    }
+    };
+
     
     // 清理资源，避免内存泄漏
     cleanup() {
@@ -559,7 +562,8 @@ class CanvasBackground {
         this.cleanupGifElements();
         
         console.log('CanvasBackground资源已清理');
-    }
+    };
+
     
     // 更新单个GIF动画的位置和大小
     updateGifPosition(gifInfo) {
@@ -620,7 +624,8 @@ class CanvasBackground {
         this.gifElements.forEach(gifInfo => {
             this.updateGifPosition(gifInfo);
         });
-    }
+    };
+
 
     // 渲染背景元素
     render() {
@@ -724,15 +729,15 @@ class CanvasBackground {
     }
 }
 
-// 创建单例实例
-const canvasBackground = new CanvasBackground();
-
 // 将功能暴露到全局作用域
 window.CanvasBackground = CanvasBackground;
-window.canvasBackground = canvasBackground;
 
 // 初始化Canvas背景
 function initCanvasBackground() {
+    // 创建单例实例
+    const canvasBackground = new CanvasBackground();
+    window.canvasBackground = canvasBackground;
+
     try {
         canvasBackground.init();
     } catch (error) {
@@ -770,7 +775,8 @@ if (document.readyState === 'loading') {
                 }
             }, 100);
         }
-    }
+    };
+
 
         // 检查是否正在操作中，或在短时间内已经加载过
         if (!gifInfo || 
@@ -1039,7 +1045,8 @@ if (document.readyState === 'loading') {
                 }, 10000); // 增加等待时间到10秒
             }
         };
-    }
+    };
+
     
     // 完全重新初始化单个GIF动画
     reinitializeGifAnimation(gifInfo) {
@@ -1059,7 +1066,6 @@ if (document.readyState === 'loading') {
             if (gifInfo.resetInterval) {
                 clearInterval(gifInfo.resetInterval);
                 gifInfo.resetInterval = null;
-                console.log(`GIF ${gifInfo.id} 重置定时器已清除`);
             }
             
             if (gifInfo.element && gifInfo.element.parentNode) {
@@ -1122,7 +1128,8 @@ if (document.readyState === 'loading') {
         } catch (err) {
             console.error(`完全重新初始化GIF动画 ${gifInfo.id} 时出错:`, err);
         }
-    }
+    };
+
     
     // 清理单个GIF元素的资源
     cleanupGifElements() {
@@ -1191,7 +1198,8 @@ if (document.readyState === 'loading') {
         gifInfo.element.style.bottom = (containerHeight * (1 - gifInfo.params.y) - scaledHeight * (1 - gifInfo.params.anchorY)) + 'px';
         
         console.log(`GIF动画 ${gifInfo.id} 位置已更新 - 容器尺寸: ${containerWidth}x${containerHeight}, GIF尺寸: ${scaledWidth}x${scaledHeight}, 位置: (${containerWidth * gifInfo.params.x - scaledWidth * gifInfo.params.anchorX}, ${containerHeight * (1 - gifInfo.params.y) - scaledHeight * (1 - gifInfo.params.anchorY)})`);
-    }
+    };
+
 
     // 调整Canvas大小以匹配窗口
     resizeCanvas() {
@@ -1252,7 +1260,8 @@ if (document.readyState === 'loading') {
                 this.ctx.drawImage(img, drawX, drawY, scaledWidth, scaledHeight);
             }
         });
-    }
+    };
+
 
     // 更新动画状态
     updateAnimation() {
@@ -1286,7 +1295,7 @@ if (document.readyState === 'loading') {
                         // 重置到右侧屏幕外，准备重新进入
                         imgInfo.x = 1.1 + (imgInfo.width / canvasWidth) / 2; // 使用更靠近屏幕的位置
                         // 随机调整速度，使移动更自然
-                    imgInfo.speed = 0.0009 + Math.random() * 0.0018; // 移动速度降低10%
+                        imgInfo.speed = 0.0009 + Math.random() * 0.0018; // 移动速度降低10%
                     }
                 } else {
                     // 图片尚未加载完成，但继续移动位置，确保加载后能立即显示在正确位置
@@ -1308,7 +1317,7 @@ if (document.readyState === 'loading') {
                         // 重置到左侧屏幕外，准备重新进入
                         imgInfo.x = -0.1 - (imgInfo.width / canvasWidth) / 2; // 使用更靠近屏幕的位置
                         // 随机调整速度，使移动更自然
-                    imgInfo.speed = 0.0009 + Math.random() * 0.0018; // 移动速度降低10%
+                        imgInfo.speed = 0.0009 + Math.random() * 0.0018; // 移动速度降低10%
                     }
                 } else {
                     // 图片尚未加载完成，但继续移动位置，确保加载后能立即显示在正确位置
