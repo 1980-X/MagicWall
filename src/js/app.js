@@ -52,9 +52,10 @@ function createMainWindow() {
         });
         mainWindow.loadURL(startUrl);
         
-        // 根据环境变量和模式决定是否打开开发者工具
-        if (currentMode === 'debug' && mode.shouldOpenDevTools()) {
+        // 当选择调试模式时，自动打开开发者工具
+        if (currentMode === 'debug') {
             mainWindow.webContents.openDevTools();
+            console.log('调试模式已启用，开发者工具已打开');
         }
         
         // 窗口关闭时的处理
