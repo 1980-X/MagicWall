@@ -4,11 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- 内容安全策略，防止XSS攻击和代码注入 -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self' devtools://*; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self' devtools://*; media-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'>">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; media-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
     <title>MagicWall</title>
     <link rel="stylesheet" href="./css/styles.css">
+    <link rel="stylesheet" href="./css/background.css">
 </head>
 <body>
+    <!-- 背景元素容器 -->
+    <div id="background-container" class="background-container">
+        <!-- 主要背景层 -->
+        <div class="main-background"></div>
+        <!-- Canvas背景层将通过JavaScript动态添加 -->
+        <!-- 旧的背景元素已移除，以避免与Canvas实现冲突 -->
+        <!-- 动态背景元素容器 (预留) -->
+        <div id="dynamic-background-container" class="dynamic-background-container"></div>
+    </div>
     <div id="main-container">
         <div id="section-1" class="section">
             <!-- 卷首语区 - 宽度约占总宽度的11.6% -->
@@ -62,5 +72,12 @@
     <!-- 仅保留渲染进程需要的脚本 -->
     <script src="./js/animation.js"></script>
     <script src="./js/buttonHandler.js"></script>
+    <script src="./js/backgroundManager.js"></script>
+    <!-- 背景元素测试脚本 -->
+    <script src="./js/testBackgroundSize.js"></script>
+    <!-- Canvas背景渲染 -->
+    <script src="./js/canvasBackground.js"></script>
+    <!-- 主应用逻辑 -->
+    <script src="./js/app.js"></script>
 </body>
 </html>

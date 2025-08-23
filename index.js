@@ -21,7 +21,5 @@ app.on('window-all-closed', function () {
 
 // macOS上点击Dock图标时创建窗口
 app.on('activate', function () {
-    if (mainWindow === null) {
-        createWindow();
-    }
+    createWindow();
 });

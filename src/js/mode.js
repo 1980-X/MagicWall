@@ -120,28 +120,36 @@ module.exports.calculateProductionWindowSize = function() {
 };
 
 // 根据当前屏幕尺寸调整窗口大小
+// 新的实现逻辑：直接检测当前主机屏幕的宽度，以宽度为基准计算高度，确保宽高比例保持不变
 module.exports.adjustWindowSizeForScreen = function(window, mode) {
     const { screen } = window;
     const primaryDisplay = screen.getPrimaryDisplay();
-    const { width, height } = primaryDisplay.workAreaSize;
+    const workArea = primaryDisplay.workAreaSize;
+    const { SCREEN_RATIO } = module.exports.CONFIG;
     
-    if (mode === 'debug') {
-        // 调试模式下，如果计算出的窗口尺寸超过屏幕，按比例缩小
-        const debugSize = module.exports.calculateDebugWindowSize(screen);
-        
-        let scaleFactor = 1;
-        if (debugSize.width > width || debugSize.height > height) {
-            const widthScale = width / debugSize.width;
-            const heightScale = height / debugSize.height;
-            scaleFactor = Math.min(widthScale, heightScale, 0.9); // 预留10%的边距
-        }
-        
-        return {
-            width: Math.floor(debugSize.width * scaleFactor),
-            height: Math.floor(debugSize.height * scaleFactor)
-        };
-    } else {
-        // 产品模式下返回实际尺寸
-        return module.exports.calculateProductionWindowSize();
+    // 预留10%的边距，确保窗口不会填满整个屏幕
+    let availableWidth = Math.floor(workArea.width * 0.9);
+    
+    // 以当前屏幕宽度为基准，根据固定比例计算高度
+    const calculatedHeight = Math.floor(availableWidth / SCREEN_RATIO);
+    
+    // 确保计算出的高度不会超过屏幕可用高度
+    let finalHeight = calculatedHeight;
+    if (finalHeight > workArea.height * 0.9) {
+        finalHeight = Math.floor(workArea.height * 0.9);
+        // 如果高度受限于屏幕，则重新计算宽度以保持比例
+        availableWidth = Math.floor(finalHeight * SCREEN_RATIO);
     }
+    
+    // 根据模式应用不同的缩放因子，但保持相同的宽高比例
+    let scaleFactor = 1;
+    if (mode === 'debug') {
+        // 调试模式下，使用较小的窗口（例如产品模式的70%）
+        scaleFactor = 0.7;
+    }
+    
+    return {
+        width: Math.floor(availableWidth * scaleFactor),
+        height: Math.floor(finalHeight * scaleFactor)
+    };
 };

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>测试背景元素缩放</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
+            background-color: #f0f0f0;
+        }
+        
+        .background-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 0;
+            overflow: hidden;
+        }
+        
+        .test-wrapper {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            border: 2px solid red;
+        }
+        
+        #test-original {
+            max-width: 100%;
+            height: auto;
+            border: 2px solid blue;
+        }
+        
+        #test-scaled {
+            max-width: 100%;
+            height: auto;
+            border: 2px solid green;
+            transform: scale(0.5);
+            transform-origin: bottom center;
+        }
+    </style>
+</head>
+<body>
+    <h1>测试背景元素缩放效果</h1>
+    
+    <div class="background-container">
+        <h2>原始大小的图片:</h2>
+        <div class="test-wrapper">
+            <img id="test-original" src="./assets/images/OverallBackground/Backgroundelements02.png" alt="原始大小">
+        </div>
+        
+        <h2>缩放50%的图片:</h2>
+        <div class="test-wrapper">
+            <img id="test-scaled" src="./assets/images/OverallBackground/Backgroundelements02.png" alt="缩放50%">
+        </div>
+    </div>
+</body>
+</html>
