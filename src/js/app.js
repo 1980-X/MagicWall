@@ -1,11 +1,13 @@
 // 导入Electron模块
-const { app, BrowserWindow, dialog, screen } = require('electron');
+const { app, BrowserWindow, dialog, screen, ipcMain } = require('electron');
 const path = require('path');
 const url = require('url');
 
 // 导入模式相关配置和函数
 const mode = require('./mode.js');
 const { CONFIG } = mode;
+
+// 布局验证器会通过preload脚本加载到渲染进程中
 
 let mainWindow;
 let currentMode = null;
@@ -40,7 +42,8 @@ function createMainWindow() {
             webPreferences: {
                 nodeIntegration: true,
                 contextIsolation: false,
-                enableRemoteModule: true
+                enableRemoteModule: true,
+                preload: path.join(__dirname, 'preload.js')
             }
         });
         
@@ -72,6 +75,54 @@ function createMainWindow() {
         mainWindow.webContents.on('did-finish-load', () => {
             mainWindow.webContents.send('mode-changed', currentMode);
         });
+
+        // 监听来自渲染进程的切换模式请求
+        ipcMain.on('switch-to-debug-mode', (event) => {
+            console.log('收到切换到调试模式的请求');
+            const debugSize = mode.calculateDebugWindowSize();
+            mainWindow.setSize(debugSize.width, debugSize.height);
+            currentMode = 'debug';
+            mainWindow.webContents.send('mode-changed', currentMode);
+            // 通知渲染进程模式切换完成
+            event.reply('debug-mode-switched');
+        });
+
+        // 监听来自布局验证器的日志消息
+        ipcMain.on('layout-validator-log', (event, message, level = 'log') => {
+            if (level === 'warn') {
+                console.warn(`[布局验证器] ${message}`);
+            } else if (level === 'error') {
+                console.error(`[布局验证器] ${message}`);
+            } else {
+                console.log(`[布局验证器] ${message}`);
+            }
+        });
+
+        // 在开发环境下验证布局一致性
+        if (mode.isDevEnvironment()) {
+            // 确保在开发环境下也能测试产品模式的布局
+            if (currentMode !== 'production') {
+                console.log('切换到产品模式以测试布局一致性...');
+                currentMode = 'production';
+                const productionSize = mode.calculateProductionWindowSize();
+                mainWindow.setSize(productionSize.width, productionSize.height);
+                mainWindow.webContents.send('mode-changed', currentMode);
+            }
+            
+            setTimeout(() => {
+                console.log('启动布局一致性验证...');
+                // 由于验证器需要在渲染进程中运行，我们通过webContents执行脚本
+                mainWindow.webContents.executeJavaScript(`
+                    const layoutValidator = window.layoutValidator;
+                    if (layoutValidator) {
+                        layoutValidator.validateScreenRatio();
+                        layoutValidator.startValidation();
+                    } else {
+                        console.error('布局验证器未加载');
+                    }
+                `);
+            }, 1000);
+        }
         
     }).catch(err => {
         console.error('选择模式时出错:', err);

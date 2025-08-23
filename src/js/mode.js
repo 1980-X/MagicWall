@@ -1,8 +1,8 @@
 // 模式配置参数
 module.exports.CONFIG = {
-    // 产品模式下的屏幕尺寸
-    SCREEN_WIDTH: 9050,     // 对应9.05米
-    SCREEN_HEIGHT: 1800,    // 对应1.80米
+    // 产品模式下的屏幕尺寸 (开发环境下使用较小尺寸)
+    SCREEN_WIDTH: 1920,     // 开发环境下使用1920px
+    SCREEN_HEIGHT: 382,     // 根据比例计算: 1920 / 5.028 ≈ 382
     SCREEN_RATIO: 5.028,    // 9.05米 / 1.80米 的比例
     
     // 调试模式下的窗口尺寸
@@ -10,16 +10,19 @@ module.exports.CONFIG = {
     DEBUG_WINDOW_WIDTH: 3017,  // 根据屏幕比例自动计算，600 * 5.028 ≈ 3017
     
     // 默认模式设置
-    DEFAULT_MODE: 'debug',    // 'debug' 或 'production'
+    DEFAULT_MODE: 'production',    // 'debug' 或 'production'
     
     // 自动模式切换阈值
     PRODUCTION_MODE_THRESHOLD_WIDTH: 8000, // 屏幕宽度超过此值时视为物理屏幕
-    AUTO_MODE_ENABLED: true // 是否启用自动模式检测
+    AUTO_MODE_ENABLED: true, // 是否启用自动模式检测
+    
+    // 开发环境标识
+    IS_DEV_ENV: process.env.NODE_ENV !== 'production'
 };
 
 // 检测当前是否为开发环境
 module.exports.isDevEnvironment = function() {
-    return process.env.NODE_ENV !== 'production';
+    return module.exports.CONFIG.IS_DEV_ENV;
 };
 
 // 获取当前屏幕的尺寸
