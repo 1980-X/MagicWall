@@ -133,8 +133,30 @@ class CanvasBackground {
                 id: 'gif-02',
                 path: './assets/images/OverallBackground/BackgroundDynamics (Elements)/Dynamic-(element)02.gif',
                 params: {
-                    scale: 0.05625, // 与第一个GIF相同的缩放比例
-                    x: 0.2, // 初始X位置 - 在第一个GIF的右侧
+                    scale: 0.0478125, // 缩小15%（0.05625 × 0.85）
+                    x: 0.1, // 在主窗口左侧10%位置
+                    y: 1, // 始终贴着底部
+                    anchorX: 0, // 左对齐
+                    anchorY: 1 // 下对齐
+                }
+            },
+            {
+                id: 'gif-03',
+                path: './assets/images/OverallBackground/BackgroundDynamics (Elements)/Dynamic-(element)03.gif',
+                params: {
+                    scale: 0.057853125, // 再放大10%（0.05259375 × 1.1）
+                    x: 0.3, // 在主窗口右侧30%位置
+                    y: 1, // 始终贴着底部
+                    anchorX: 0, // 左对齐
+                    anchorY: 1 // 下对齐
+                }
+            },
+            {
+                id: 'gif-04',
+                path: './assets/images/OverallBackground/BackgroundDynamics (Elements)/Dynamic-(element)04.gif',
+                params: {
+                    scale: 0.057853125, // 与第三个极简版GIF相同的缩放比例
+                    x: 0.8, // 向左移动20%（原1.0 - 0.2）
                     y: 1, // 始终贴着底部
                     anchorX: 0, // 左对齐
                     anchorY: 1 // 下对齐
