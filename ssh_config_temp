@@ -1,0 +1,11 @@
+# 添加远程主机配置
+Host cpolar_remote
+  HostName 2.tcp.cpolar.cn
+  Port 12731
+  User wilber
+  # 以下是可选配置
+  # IdentityFile ~/.ssh/your_private_key
+  # ServerAliveInterval 60
+  # ForwardAgent yes
+
+# 使用方法: ssh cpolar_remote

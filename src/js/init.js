@@ -27,6 +27,24 @@
     // 设置按钮3为默认选中状态（安全生产委员会模式）
     setDefaultButtonWithRetry('button-03');
     
+    // 初始化模式内容管理器并设置默认内容
+    setTimeout(() => {
+        if (window.modeContentManager) {
+            console.log('初始化模式内容管理器');
+            window.modeContentManager.initializeContentContainers();
+            // 设置默认模式内容
+            window.modeContentManager.switchModeContent('button-03');
+        } else {
+            console.warn('模式内容管理器未就绪，将延迟初始化');
+            setTimeout(() => {
+                if (window.modeContentManager) {
+                    window.modeContentManager.initializeContentContainers();
+                    window.modeContentManager.switchModeContent('button-03');
+                }
+            }, 300);
+        }
+    }, 100);
+    
     // 初始化动画
     if (window.initAnimations) {
         console.log('初始化动画系统');
@@ -83,6 +101,11 @@
                 default:
                     console.log('未知的按钮ID:', buttonId);
             }
+        }
+        
+        // 调用模式内容管理器切换内容
+        if (window.modeContentManager) {
+            window.modeContentManager.switchModeContent(buttonId);
         }
     });
 });
